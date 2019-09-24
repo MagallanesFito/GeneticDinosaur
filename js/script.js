@@ -18,8 +18,15 @@ function draw(){
 	dino.show();
 	dino.move();
 
-	for(var i=0;i<obstacles.length;i++){
-		obstacles[i].move();
-		obstacles[i].show();
-	}
+	obstacles.forEach(function(obstacle,index){
+		obstacle.move();
+		obstacle.show();
+		if(obstacle.erase()){
+			obstacles.splice(index,1);
+		}
+		//If an obstacle collides dino, the game stops, CHANGE THIS FOR GENETIC ALGORITHM
+		if(obstacle.collides(dino)){
+			noLoop();
+		}
+	});
 }
