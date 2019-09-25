@@ -48,23 +48,44 @@ function restartGame(){
 	console.log("generations: "+generations.toString());
 	setup();
 }
-function draw(){
+function networkInfo(){
 	
-	if(frames % frameFrequency == 0){
+	var network = new NeuralNetwork(2,3,3);
+	var result = network.predict(1,1);
+
+	//given result, decide which action perform
+	if(result == 0){
+		console.log("up");
+		//dino.up();
+	}
+	else if(result == 1){
+		console.log("down");
+		//dino.down();
+	}
+	else if(result == 2){
+		console.log("jump");
+		//dino.jump();
+	}
+	noLoop();
+}
+function draw(){
+	networkInfo();
+	background(220);
+	
+	dino.show();
+	dino.move();
+
+	if(frames % 30 == 0){
 		var obstacleGround = true;
 		//Pick either ground obstacle or air obstacle randomly
 		if(random(1) < OBSTACLE_TYPE){
 			obstacleGround = false;
 		}
 		obstacles.push(new Obstacle(obstacleGround));
-		frameFrequency = (Math.floor(Math.random() * (maxFrame - minFrame + 1) ) + minFrame)*10;
-		frames = 0;
+		//frameFrequency = (Math.floor(Math.random() * (maxFrame - minFrame + 1) ) + minFrame)*10;
+		//frames = 0;
 
 	}
-	background(220);
-	
-	dino.show();
-	dino.move();
 
 	obstacles.forEach(function(obstacle,index){
 		obstacle.move();

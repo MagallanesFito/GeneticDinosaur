@@ -17,7 +17,7 @@ class Obstacle{
 		rect(this.x,this.y,this.r,this.r);
 	}
 	collides(dino){
-		//obstacle lies inside dino
+		//obstacle lies inside dino 
 		if((this.x >= dino.x && this.x<=dino.x+dino.r) && (dino.y>=this.y && dino.y<=this.y+this.r)){
 			return true;
 		}
