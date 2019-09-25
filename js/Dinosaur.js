@@ -10,7 +10,8 @@ class Dinosaur{
 		this.brain = new NeuralNetwork(2,3,3);
 	}
 	show(){
-		fill(77, 76, 75);
+		//fill(77, 76, 75);
+		fill(227, 65, 11);
 		rect(this.x,this.y,50,this.r);
 	}
 	onGround(){
@@ -40,6 +41,9 @@ class Dinosaur{
 			this.y = height - this.r;
 		}
 	}
+	/*
+	Get x,y coordinates of first non passed obstacle, this is used for feed neural network
+	*/
 	getNextObstacle(){
 		var index = 0;
 		var vectorCoordinates = [];

@@ -21,6 +21,8 @@ class NeuralNetwork{
 	getW2(){
 		return this.w2;
 	}
+	//-------------------
+	/*Make weighted matrix multplication between previous and current layers and apply activation function*/
 	operate(inputVector,nextSize,w){
 		//Create resulting vector of 0's
 		var newVector =  this.algebraInstance.createVector(nextSize,0);
@@ -33,7 +35,6 @@ class NeuralNetwork{
 		}
 		return newVector;
 	}
-	//-------------------
 	//Receives the x,y location of next obstacle and predicts whether up,down,jump
 	predict(invector){
 		//var inVector = [x,y];
@@ -44,6 +45,7 @@ class NeuralNetwork{
 		0 up
 		1 down
 		2 jump
+		as the max value of output vector
 		*/
 		var maxOutput = 0;
 		if(outputVector[1] > outputVector[maxOutput]) maxOutput = 1;

@@ -15,6 +15,7 @@ class Obstacle{
 		this.x -= 10;
 	}
 	show(){
+		fill(77, 76, 75);
 		rect(this.x,this.y,this.r,this.r);
 	}
 	collides(dino){
@@ -31,6 +32,7 @@ class Obstacle{
 		}
 		return false;
 	}
+	/*Determines if a dinosaur has passed this obstacle*/
 	isPassed(){
 		return this.passed;
 	}

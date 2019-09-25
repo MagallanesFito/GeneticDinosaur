@@ -1,20 +1,34 @@
-var dino;
+//var dino;
 var obstacles;
 var vAlgebra = new VectorAlgebra();
 var frames;
-var minFrame = 3;
-var maxFrame = 6;
 var generations = 0;
-var frameFrequency = (Math.floor(Math.random() * (maxFrame - minFrame + 1) ) + minFrame)*10;
-//The arrival density of obstacles. MANAGE THIS AS A POISSON DIST LATER
-var OBSTACLE_RATIO = 0.01;
-var OBSTACLE_TYPE = 0.5;
+//List of dinosaurs, defining the initial population
+var dinosaurs = [];
+//Define constants here
+const OBSTACLE_TYPE = 0.5;
+const POPULATION_SIZE = 10;
+const MIN_FRAME = 3;
+const MAX_FRAME = 6;
+const FRAME_FREQUENCY = (Math.floor(Math.random() * (MAX_FRAME - MIN_FRAME + 1) ) + MIN_FRAME)*10;
+
+
 function setup(){
 	createCanvas(900,450);
 	obstacles = [];
-	dino = new Dinosaur();
+	//dino = new Dinosaur();
+	for(var i=0;i<POPULATION_SIZE;i++){
+		dinosaurs.push(new Dinosaur());
+	}
 	frames = 0;
 }
+function restartGame(){
+	generations++;
+	console.log("generations: "+generations.toString());
+	setup();
+}
+/*
+only for testing
 function keyPressed(){
 	//console.log(key);
 	if(key == ' '){
@@ -27,40 +41,19 @@ function keyPressed(){
   		dino.up();
   	}
 }
-function restartGame(){
-	generations++;
-	console.log("generations: "+generations.toString());
-	setup();
-}
-/*
-Get x,y coordinates of first non passed obstacle, this is used for feed neural network
 */
-function getNextObstacle(){
-	var index = 0;
-	var vectorCoordinates = [];
-	if(obstacles.length > 0){
-		while(obstacles[index].isPassed() && index<obstacles.length){
-			index++;
-		}
-		//console.log(obstacles[0].isPassed());
-
-		vectorCoordinates.push(obstacles[index].x);
-		vectorCoordinates.push(obstacles[index].y);
-		//[obstacles[0].x,obstacles[0].y];
-	}
-	else{
-		vectorCoordinates.push(width);
-		vectorCoordinates.push(height-dino.r);
-	}
-	//console.log(vectorCoordinates);
-	return vectorCoordinates;
-}
 function draw(){
-	//networkInfo();
 	background(220);
-	
-	dino.show();
-	dino.move();
+	//Check this contition first of all
+	if(dinosaurs.length == 0){
+		//If all dinosaurs all dead, stop the game
+		//restartGame();
+		noLoop();
+	}
+	dinosaurs.forEach(function(dino){
+		dino.show();
+		dino.move();
+	});
 
 	if(frames % 30 == 0){
 		var obstacleGround = true;
@@ -69,9 +62,6 @@ function draw(){
 			obstacleGround = false;
 		}
 		obstacles.push(new Obstacle(obstacleGround));
-		//frameFrequency = (Math.floor(Math.random() * (maxFrame - minFrame + 1) ) + minFrame)*10;
-		//frames = 0;
-
 	}
 
 	obstacles.forEach(function(obstacle,index){
@@ -80,21 +70,26 @@ function draw(){
 		if(obstacle.erase()){
 			obstacles.splice(index,1);
 		}
-		//If an obstacle collides dino, the game stops, CHANGE THIS FOR GENETIC ALGORITHM
-		if(obstacle.collides(dino)){
-			//if looses, restart the game
-			//restartGame();
-			noLoop();
-		}
-		//pass obstacle
-		if(obstacle.x <= dino.x && !obstacle.isPassed()){
-			dino.score++;
-			obstacle.pass();
-		}
+		//For each dinosaur
+		dinosaurs.forEach(function(dino,index){
+			//If an obstacle collides dino, the game stops, CHANGE THIS FOR GENETIC ALGORITHM
+			if(obstacle.collides(dino)){
+				//if looses, kill actual dinosaur
+				dinosaurs.splice(index,1);
+			}
+			//pass obstacle
+			if(obstacle.x <= dino.x && !obstacle.isPassed()){
+				dino.score++;
+				obstacle.pass();
+			}
+		});
 	});
 
-	//var vCoordinates = getNextObstacle();
-	dino.think();
-	//console.log(vCoordinates);
+	/*
+	Let AI make its job
+	*/
+	dinosaurs.forEach(function(dino){
+			dino.think();
+	});
 	frames++;
 }
