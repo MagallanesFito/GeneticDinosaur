@@ -8,6 +8,7 @@ class Obstacle{
 		else{
 			this.y = height - 2*this.r;
 		}
+		this.passed = false;
 		
 	}
 	move(){
@@ -29,5 +30,11 @@ class Obstacle{
 			return true;
 		}
 		return false;
+	}
+	isPassed(){
+		return this.passed;
+	}
+	pass(){
+		this.passed = true;
 	}
 }

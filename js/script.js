@@ -27,49 +27,36 @@ function keyPressed(){
   		dino.up();
   	}
 }
-/*function canAddNewObstacle(){
-	//var newObstacle = new Obstacle();
-	//The new obstacle's x position must be at least 100 px further than previous obstacles
-	if(obstacles.length == 0){
-		//obstacles.push(new Obstacle());
-		return true;
-	}
-	obstacles.forEach(function(obstacle){
-		if(width-(obstacle.x+obstacle.r) <300){
-			console.log("jsdksd");
-			return false;
-			
-		}
-	});
-	return true;
-}*/
 function restartGame(){
 	generations++;
 	console.log("generations: "+generations.toString());
 	setup();
 }
-function networkInfo(){
-	
-	var network = new NeuralNetwork(2,3,3);
-	var result = network.predict(1,1);
+/*
+Get x,y coordinates of first non passed obstacle, this is used for feed neural network
+*/
+function getNextObstacle(){
+	var index = 0;
+	var vectorCoordinates = [];
+	if(obstacles.length > 0){
+		while(obstacles[index].isPassed() && index<obstacles.length){
+			index++;
+		}
+		//console.log(obstacles[0].isPassed());
 
-	//given result, decide which action perform
-	if(result == 0){
-		console.log("up");
-		//dino.up();
+		vectorCoordinates.push(obstacles[index].x);
+		vectorCoordinates.push(obstacles[index].y);
+		//[obstacles[0].x,obstacles[0].y];
 	}
-	else if(result == 1){
-		console.log("down");
-		//dino.down();
+	else{
+		vectorCoordinates.push(width);
+		vectorCoordinates.push(height-dino.r);
 	}
-	else if(result == 2){
-		console.log("jump");
-		//dino.jump();
-	}
-	noLoop();
+	//console.log(vectorCoordinates);
+	return vectorCoordinates;
 }
 function draw(){
-	networkInfo();
+	//networkInfo();
 	background(220);
 	
 	dino.show();
@@ -99,6 +86,15 @@ function draw(){
 			//restartGame();
 			noLoop();
 		}
+		//pass obstacle
+		if(obstacle.x <= dino.x && !obstacle.isPassed()){
+			dino.score++;
+			obstacle.pass();
+		}
 	});
+
+	//var vCoordinates = getNextObstacle();
+	dino.think();
+	//console.log(vCoordinates);
 	frames++;
 }

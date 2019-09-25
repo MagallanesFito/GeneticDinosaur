@@ -35,12 +35,12 @@ class NeuralNetwork{
 	}
 	//-------------------
 	//Receives the x,y location of next obstacle and predicts whether up,down,jump
-	predict(x,y){
-		var inVector = [x,y];
-		var hiddenVector = this.operate(inVector,this.h,this.w1);
+	predict(invector){
+		//var inVector = [x,y];
+		var hiddenVector = this.operate(invector,this.h,this.w1);
 		var outputVector = this.operate(hiddenVector,this.y,this.w2);
 
-		/*dedice whether
+		/*decide whether
 		0 up
 		1 down
 		2 jump
