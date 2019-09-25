@@ -12,7 +12,7 @@ var previous_generation = [];
 const OBSTACLE_TYPE = 0.5;
 const MIN_FRAME = 3;
 const MAX_FRAME = 6;
-var FRAME_FREQUENCY = (Math.floor(Math.random() * (MAX_FRAME - MIN_FRAME + 1) ) + MIN_FRAME)*10;
+var FRAME_FREQUENCY = 35;//(Math.floor(Math.random() * (MAX_FRAME - MIN_FRAME + 1) ) + MIN_FRAME)*10;
 //Constants for genetic Algorithm
 const POPULATION_SIZE = 10;
 const NEXT_GENERATION = 0.5;
@@ -28,6 +28,10 @@ function setup(){
 	//Show information of first generation
 	console.log("generations: "+generations.toString());
 	dinosaurs = geneticAlgorithm.createPopulation();
+
+	//uncomment this if human is playing 
+	//dino = new Dinosaur();
+
 	console.log("highest fitness: "+dinosaurs[0].score);
 	console.log("------------------");
 	frames = 0;
@@ -41,9 +45,9 @@ function restartGame(){
 	previous_generation = [];
 	frames = 0;
 }
-/*
-only for testing
-function keyPressed(){
+
+//only for testing, uncomment this if human is playing
+/*function keyPressed(){
 	//console.log(key);
 	if(key == ' '){
 		dino.jump();
@@ -54,16 +58,22 @@ function keyPressed(){
   	else{
   		dino.up();
   	}
-}
-*/
+}*/
+
 function draw(){
-	//Check this contition first of all
+	//Check this contition first of all comment this if human is playing
 	if(dinosaurs.length == 0){
 		//If all dinosaurs all dead, stop the game
 		restartGame();
 		//noLoop();
 	}
 	background(220);
+
+	//uncomment this if human is playing
+	/*dino.show();
+	dino.move();*/
+
+	//comment this if human is playing
 	dinosaurs.forEach(function(dino){
 		dino.show();
 		dino.move();
@@ -85,7 +95,23 @@ function draw(){
 		if(obstacle.erase()){
 			obstacles.splice(index,1);
 		}
-		//For each dinosaur
+
+		/*
+		uncomment this if human is playing
+		if(obstacle.collides(dino)){
+				//if collides, kill actual dinosaur
+				//Store actual dinosaur in killed dinosaurs list and then kill it
+				//previous_generation.push(dino);
+				//Kill :(
+				//dinosaurs.splice(index,1);
+				noLoop();
+			}
+			//pass obstacle
+			if(obstacle.x <= dino.x && !obstacle.isPassed()){
+				dino.score++;
+				obstacle.pass();
+			}*/
+		//For each dinosaur, comment this if human is playing
 		dinosaurs.forEach(function(dino,index){
 			if(obstacle.collides(dino)){
 				//if collides, kill actual dinosaur
@@ -103,7 +129,7 @@ function draw(){
 	});
 
 	/*
-	Let AI make its job
+	Let AI make its job, comment this if human is playing
 	*/
 	dinosaurs.forEach(function(dino){
 			dino.think();
