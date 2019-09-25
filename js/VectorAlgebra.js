@@ -85,6 +85,19 @@ class VectorAlgebra{
 		}
 		return v_new;
 	}
+	//Calculate factor sum alpha*sum(w_i+w_i')
+	factorsum(w1,w2,alpha){
+		//Both matrices has the same dimensions
+		var m = w1.length;
+		var n = w1[0].length;
+		var newMartix = this.createMatrix(m,n,0);
+		for(var i=0;i<m;i++){
+			for(var j=0;j<n;j++){
+				newMartix[i][j] = alpha*(w1[i][j]+w2[i][j]);
+			}
+		}
+		return newMartix;
+	}
 	/*
 	Perform element-wise operation between two vectors. 
 	v1,v2 are two vectors of the same size

@@ -5,9 +5,27 @@ class Dinosaur{
 		this.y = height - this.r;
 		this.vy = 0;
 		this.gravity  = 2;
+		/*The number of obstacles passed so far. 
+		This is interpreted as the FITNESS FUNCTION in genetic algorithm*/
 		this.score = 0;
 		//A neural network with two inputs, 3 hidden layers and 3 output layers
 		this.brain = new NeuralNetwork(2,3,3);
+	}
+	setW(w,layer){
+		if(layer==0){
+			this.brain.w1 = w;
+		}
+		else if(layer == 1){
+			this.brain.w2 = w;
+		}
+	}
+	getW(layer){
+		if(layer==0){
+			return this.brain.w1;
+		}
+		else if(layer == 1){
+			return this.brain.w2;
+		}
 	}
 	show(){
 		//fill(77, 76, 75);
