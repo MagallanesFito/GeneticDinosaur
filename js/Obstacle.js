@@ -1,19 +1,24 @@
 class Obstacle{
-	constructor(){
-		this.r = 100;
+	constructor(groundObstacle){
+		this.r = 50;
 		this.x = width;
-		this.y = height - this.r;
-		this.height = 30;
+		if(groundObstacle){
+			this.y = height - this.r;
+		}
+		else{
+			this.y = height - 2*this.r;
+		}
+		
 	}
 	move(){
 		this.x -= 10;
 	}
 	show(){
-		rect(this.x,this.y,this.height,this.r);
+		rect(this.x,this.y,this.r,this.r);
 	}
 	collides(dino){
-		//obstacle lies inside dino CHANGE 15 LATER
-		if(this.x >= dino.x && this.x<=dino.x+dino.r && dino.y+dino.r >= this.y+15){
+		//obstacle lies inside dino
+		if((this.x >= dino.x && this.x<=dino.x+dino.r) && (dino.y>=this.y && dino.y<=this.y+this.r)){
 			return true;
 		}
 		return false;
