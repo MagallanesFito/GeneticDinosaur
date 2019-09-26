@@ -55,15 +55,33 @@ class GeneticAlgorithm{
 		//Crate new generation
 		var dinosaurs = [];
 		var nextGenerationLength = int(previousGeneration.length*this.nextGenerationRate);
-		for(var i=0;i<nextGenerationLength;i++){
-			var actualDino = previousGeneration[i];
-			actualDino.score = 0;
-			dinosaurs.push(actualDino);
+		//Get sum of all scores
+		var sumScores = 0;
+		for(var i=0;i<previousGeneration.length;i++){
+			sumScores += (previousGeneration[i].score);
+		}
+		while(dinosaurs.length<nextGenerationLength){
+			for(var i=0;i<previousGeneration.length;i++){
+				/*A probability that a certain individual is choosen. 
+				As more fitness, more likely to be chosen. But also, on very anormal cases, worst individuals can
+				be candidates to crossover.*/
+				var actualDino = previousGeneration[i];
+				var probChoose = (actualDino.score+1)/sumScores;
+				if(random(1) < probChoose){
+					actualDino.score = 0;
+					dinosaurs.push(actualDino);
+				}
+				//A probability of 5% that a bad individual is chosen for crossover
+				else if(random(1) < 0.05){
+					actualDino = previousGeneration[previousGeneration.length-1];
+					actualDino.score = 0;
+					dinosaurs.push(actualDino);
+				}
+			}
 		}
 		
-		
 		//Fill the remaining generation by picking random individuals of new generation and crossover them
-		//console.log("length: "+dinosaurs.length.toString());
+		/*In this case, all selected individuals in the previous step are equal likely to crossover. */
 		while(dinosaurs.length<this.populationSize){
 			//console.log("heheheh");
 			var individual1= (Math.floor(Math.random() * (dinosaurs.length) ));

@@ -14,10 +14,10 @@ const MIN_FRAME = 3;
 const MAX_FRAME = 6;
 var FRAME_FREQUENCY = 35;//(Math.floor(Math.random() * (MAX_FRAME - MIN_FRAME + 1) ) + MIN_FRAME)*10;
 //Constants for genetic Algorithm
-const POPULATION_SIZE = 10;
-const NEXT_GENERATION = 0.5;
-const MUTATION_RATE = 0.05;
-const PERTURBATION = 0.1;
+const POPULATION_SIZE = 50;
+const NEXT_GENERATION = 0.2;
+const MUTATION_RATE = 0.2;
+const PERTURBATION = 0.05;
 var geneticAlgorithm = new GeneticAlgorithm(POPULATION_SIZE,NEXT_GENERATION,MUTATION_RATE,PERTURBATION);
 //percentage of individuals that goes to next generation 50% by default
 
@@ -33,7 +33,7 @@ function setup(){
 	//dino = new Dinosaur();
 
 	console.log("highest fitness: "+dinosaurs[0].score);
-	console.log("------------------");
+	//console.log("------------------");
 	frames = 0;
 }
 /*Restart game to initial configuration and make Genetic Algorithm work*/

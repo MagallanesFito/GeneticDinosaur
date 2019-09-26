@@ -28,8 +28,7 @@ class Dinosaur{
 		}
 	}
 	show(){
-		//fill(77, 76, 75);
-		fill(227, 65, 11);
+		fill(77, 76, 75);
 		rect(this.x,this.y,50,this.r);
 	}
 	onGround(){
